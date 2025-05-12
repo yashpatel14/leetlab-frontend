@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useAuthStore } from "../store/useAuthStore";
+import { Loader2 } from "lucide-react";
 
 const SignUpSchema = z.object({
   email: z.string().email("Enter a valid email"),
@@ -17,6 +19,8 @@ const SignUpSchema = z.object({
 export const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
 
+  const { signup, isSigninUp } = useAuthStore();
+
   const {
     register,
     handleSubmit,
@@ -26,7 +30,12 @@ export const SignUpPage = () => {
   });
 
   const onSubmit = async (data) => {
-    console.log("done 🔥🔥", data);
+    try {
+      await signup(data);
+      console.log("signup data", data);
+    } catch (error) {
+      console.error("SignUp failed:", error);
+    }
   };
 
   return (
@@ -42,11 +51,7 @@ export const SignUpPage = () => {
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div>
                 <Label htmlFor="name">Name</Label>
-                <Input
-                  id="name"
-                  {...register("name")}
-                  placeholder="John Doe"
-                />
+                <Input id="name" {...register("name")} placeholder="John Doe" />
                 {errors.name && (
                   <p className="text-red-500 text-sm mt-1">
                     {errors.name.message}
@@ -94,15 +99,18 @@ export const SignUpPage = () => {
                 )}
               </div>
 
-              <Button type="submit" className="w-full">
-                Sign Up
+              <Button type="submit" className="w-full" disabled={isSigninUp}>
+              {isSigninUp ? (
+                <>
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  Loading...
+                </>
+              ) : (
+                "Sign in"
+              )}
               </Button>
 
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full mt-2"
-              >
+              <Button type="button" variant="outline" className="w-full mt-2">
                 Sign Up with Google
               </Button>
             </form>
