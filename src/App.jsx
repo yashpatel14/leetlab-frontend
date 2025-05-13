@@ -7,6 +7,8 @@ import { useAuthStore } from "./store/useAuthStore";
 import { useEffect } from "react";
 import { Loader } from "lucide-react";
 import Layout from "./layout/Layout";
+import AdminRoute from "./components/AdminRoute";
+import AddProblem from "./page/AddProblem";
 
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -42,6 +44,9 @@ function App() {
             path="/signup"
             element={!authUser ? <SignUpPage /> : <Navigate to={"/"} />}
           />
+          <Route element={<AdminRoute/>}>
+            <Route path="/add-problem" element={authUser ? <AddProblem /> : <Navigate to="/" />} />
+          </Route>
         </Routes>
       </div>
     </>

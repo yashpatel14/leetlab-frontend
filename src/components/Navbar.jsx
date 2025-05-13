@@ -31,28 +31,29 @@ const Navbar = () => {
   console.log("AUTH_USER", authUser);
 
   return (
-    <nav className="flex items-center justify-between w-full px-4 py-3 shadow-md bg-white dark:bg-gray-900">
-      {/* Left - Logo */}
-      <div className="text-xl font-bold text-gray-800 dark:text-white">
+    <nav className="fixed top-0 z-50 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 shadow-sm px-4 py-3">
+    <div className="flex items-center justify-between max-w-7xl mx-auto">
+      {/* Logo */}
+      <div className="text-2xl font-semibold text-gray-900 dark:text-white">
         MyApp
       </div>
 
-      {/* Center - Navigation Links (hidden on mobile) */}
+      {/* Desktop Navigation */}
       <div className="hidden md:flex gap-6">
         {links.map(({ href, label }) => (
           <Link
             key={href}
             to={href}
-            className="text-gray-700 dark:text-gray-200 hover:underline"
+            className="text-gray-700 dark:text-gray-300 hover:text-primary transition-colors duration-200 font-medium"
           >
             {label}
           </Link>
         ))}
       </div>
 
-      {/* Right - Mobile Menu and Profile Button */}
+      {/* Mobile + Profile */}
       <div className="flex items-center gap-2">
-        {/* Mobile Nav Toggle */}
+        {/* Mobile Menu Button */}
         <div className="md:hidden">
           <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
             <SheetTrigger asChild>
@@ -77,36 +78,32 @@ const Navbar = () => {
           </Sheet>
         </div>
 
-        {/* Profile Button (Icon) */}
-        <div
-          
-        >
-          <DropdownMenu>
-  <DropdownMenuTrigger asChild>
-    <Button variant="ghost" size="icon" className="ml-2">
-      <User className="w-5 h-5 text-gray-700 dark:text-gray-200" />
-    </Button>
-  </DropdownMenuTrigger>
-  <DropdownMenuContent align="end" className="mt-2">
-    <DropdownMenuItem asChild>
-      <Link to="/profile">Profile</Link>
-    </DropdownMenuItem>
-    
-    {authUser?.role === "ADMIN" && (
-      <DropdownMenuItem asChild>
-        <Link to="/add-problem">Add Problem</Link>
-      </DropdownMenuItem>
-    )}
-    
-    <DropdownMenuItem onClick={onLogout}>
-      Logout
-    </DropdownMenuItem>
-  </DropdownMenuContent>
-</DropdownMenu>
-
-        </div>
+        {/* Profile Dropdown */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+            >
+              <User className="w-5 h-5 text-gray-700 dark:text-gray-200" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="mt-2 w-40 shadow-xl">
+            <DropdownMenuItem asChild>
+              <Link to="/profile">Profile</Link>
+            </DropdownMenuItem>
+            {authUser?.role === "ADMIN" && (
+              <DropdownMenuItem asChild>
+                <Link to="/add-problem">Add Problem</Link>
+              </DropdownMenuItem>
+            )}
+            <DropdownMenuItem onClick={onLogout}>Logout</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
-    </nav>
+    </div>
+  </nav>
   );
 };
 
