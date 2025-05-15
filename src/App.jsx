@@ -9,21 +9,23 @@ import { Loader } from "lucide-react";
 import Layout from "./layout/Layout";
 import AdminRoute from "./components/AdminRoute";
 import AddProblem from "./page/AddProblem";
+import ProblemPage from "./components/ProblemPage";
 
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
+
+
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
-  if (isCheckingAuth && !authUser) {
+  if (isCheckingAuth && !authUser)
     return (
       <div className="flex items-center justify-center h-screen">
         <Loader className="size-10 animate-spin" />
       </div>
     );
-  }
 
   return (
     <>
@@ -44,6 +46,10 @@ function App() {
             path="/signup"
             element={!authUser ? <SignUpPage /> : <Navigate to={"/"} />}
           />
+          <Route
+          path="/problem/:id"
+          element={authUser ? <ProblemPage /> : <Navigate to="/login" />}
+        />
           <Route element={<AdminRoute/>}>
             <Route path="/add-problem" element={authUser ? <AddProblem /> : <Navigate to="/" />} />
           </Route>

@@ -13,15 +13,15 @@ import { useAuthStore } from "../store/useAuthStore";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { authUser,logout } = useAuthStore();
   
-
   const links = [
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
     { href: "/contact", label: "Contact" },
   ];
 
-  const { authUser,logout } = useAuthStore();
+  
   
   const onLogout = async()=>{
     await logout();
