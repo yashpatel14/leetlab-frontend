@@ -13,12 +13,16 @@ import { Badge } from "@/components/ui/badge";
 import { Plus, Trash2, Pencil, Bookmark } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
+import AddToPlaylistModal from "./AddToPlaylistModal";
+import CreatePlaylistModal from "./CreatePlaylistModal";
+import { useActions } from "../store/useActions";
+import { usePlaylistStore } from "../store/usePlaylistStore";
 
 const ProblemTable = ({ problems }) => {
   const { authUser } = useAuthStore();
   console.log(authUser);
-  //   const { onDeleteProblem } = useActions();
-  //   const { createPlaylist } = usePlaylistStore();
+    const { onDeleteProblem } = useActions();
+    const { createPlaylist } = usePlaylistStore();
   const [search, setSearch] = useState("");
   const [difficulty, setDifficulty] = useState("ALL");
   const [selectedTag, setSelectedTag] = useState("ALL");
@@ -247,7 +251,7 @@ const ProblemTable = ({ problems }) => {
       </div>
 
       {/* Modals */}
-      {/* <CreatePlaylistModal
+      <CreatePlaylistModal
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
         onSubmit={handleCreatePlaylist}
@@ -256,7 +260,7 @@ const ProblemTable = ({ problems }) => {
         isOpen={isAddToPlaylistModalOpen}
         onClose={() => setIsAddToPlaylistModalOpen(false)}
         problemId={selectedProblemId}
-      /> */}
+      />
     </div>
   );
 };
